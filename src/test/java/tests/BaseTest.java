@@ -5,6 +5,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class BaseTest {
             // актуальны для всех запросов, везде добавлять эти настройки в
             // запросах  / повторяющиеся части
             .setBaseUri(BASE_URI) //
-            .addHeader("app-id", APP_ID_VALUE)// в постман апп айди стоит в header(ключ, значение)
+           // .addHeader("app-id", APP_ID_VALUE)// в постман апп айди стоит в header(ключ, значение)
             .setContentType(ContentType.JSON)  // чтобы передавать в формате JSON
             .build();  // завершаем метод билд
 
@@ -103,32 +104,29 @@ public class BaseTest {
         return userId;
     }
 
-    // Метод для получения postId из списка постов пользователя НО ОНИ НЕ РАБОТАЮТ!
-    //public static String getPostId(String accessToken) {
-        // Выполняем GET запрос для получения всех постов пользователя
-        //Response response = getRequest("/api/posts", 200, accessToken);
-        // Извлечение списка постов
-        //List<String> postIds = response.jsonPath().getList("id", String.class);
-        // Проверка, что список постов не пустой и содержит хотя бы один postId
-        //assertFalse(postIds.isEmpty(), "Post ID list should not be empty");
-        // Возвращаем первый postId из списка
-        //return postIds.get(0);
 
-        /////////////////////////////////////////////////////////////////////////////////
+    public List<Map<String, Object>> getAllPosts(String accessToken) {
+        Response response = getRequest("/api/posts", 200, accessToken);
+        return response.jsonPath().getList("");
+    }
+    public Map<String, Object> getPostById(String postId, String accessToken) {
+        Response response = getRequest("/api/posts/" + postId, 200, accessToken);
+        return response.jsonPath().getMap(""); // Извлекаем пост как Map
+    }
 
-       // Response response = getRequest("/api/posts", 200, accessToken);
-
-        // Извлечение списка постов текущего пользователя
-        //List<Map<String, Object>> posts = response.jsonPath().getList("");
-
-        // Поиск первого поста, принадлежащего текущему пользователю
-        //String currentUserId = getUserId(accessToken);
-       // for (Map<String, Object> post : posts) {
-         //   Map<String, Object> user = (Map<String, Object>) post.get("user");
-          //  if (user.get("id").equals(currentUserId)) {
-           //     return (String) post.get("id");
-          //  }
-       // }
-       // return currentUserId;
-   // }
+    // Метод для загрузки файлов через POST запрос с использованием multipart/form-data
+    public static Response postImageUploadRequest(String endpoint, File file, Integer expectedStatusCode, String accessToken) {
+        return given()
+                .spec(specification)
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType("multipart/form-data")
+                .multiPart("multipartFile", file, "image/png")
+                .when()
+                .log().all()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+    }
 }

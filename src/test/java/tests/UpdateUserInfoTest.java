@@ -4,7 +4,6 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static tests.BaseTest.*;
 import java.util.List;
 
 public class UpdateUserInfoTest extends BaseTest {
@@ -13,10 +12,6 @@ public class UpdateUserInfoTest extends BaseTest {
         String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
         String userId = getUserId(accessToken);//получение айдишки
 
-//loginAndGetAccessToken();//получение токена
-//       getUserId("accessToken");//получение айдишки с этими изменениями не работает!ВАЛИТСЯ
-
-        //запорос на обновление
         UpdateUserInfoRequest updateRequest = UpdateUserInfoRequest.builder()
                 .name("Toma")
                 .surname("Tomovna")
