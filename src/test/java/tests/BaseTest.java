@@ -88,19 +88,18 @@ public class BaseTest {
     }
 
     // Метод для получения accessToken после успешного входа
-    public static String loginAndGetAccessToken() {
-        LoginUserRequest requestBody = new LoginUserRequest("hirsch.mariia@icloud.com", "NewOne!!01");
+    public String loginAccessToken(String email, String password){
+        LoginUserRequest requestBody = new LoginUserRequest(email, password);
         Response response = postRequest("/api/auth/login", 200, requestBody);
-        String accessToken = response.body().jsonPath().getString("accessToken");
-        assertFalse(accessToken.isEmpty(), "Access token should not be empty");
-        return accessToken;
-    }
 
-    // Метод для получения userId с использованием accessToken
-    public static String getUserId(String accessToken) {
+        String loginResponseAccessToken = response.body().jsonPath().getString("accessToken");
+        assertFalse(loginResponseAccessToken.isEmpty());
+        return loginResponseAccessToken;
+    }
+    public String getUserId(String accessToken){
         Response meResponse = getRequest("/api/me", 200, accessToken);
         String userId = meResponse.body().jsonPath().getString("id");
-        assertFalse(userId.isEmpty(), "User ID should not be empty");
+        assertFalse(userId.isEmpty());
         return userId;
     }
 

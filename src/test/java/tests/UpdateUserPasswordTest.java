@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static tests.BaseTest.*;
 
-public class UpdateUserPasswordTest {
+public class UpdateUserPasswordTest extends BaseTest{
 
     @Test
     public void updateUserPasswordSuccessfully() {
-        String accessToken = loginAndGetAccessToken();
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
 
         UpdateUserPassRequest updatePassRequest = UpdateUserPassRequest.builder()
                 .currentPassword("Blabla2024!!!")
@@ -27,7 +27,8 @@ public class UpdateUserPasswordTest {
 
     @Test
     public void updateUserPasswordWithIncorrectCurrentPassword() {
-        String accessToken = loginAndGetAccessToken();
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+
 
         UpdateUserPassRequest updatePassRequest = UpdateUserPassRequest.builder()
                 .currentPassword("NeBlabla2024!!")
@@ -47,7 +48,8 @@ public class UpdateUserPasswordTest {
 
     @Test
     public void updateUserPasswordWithShortNewPassword() {
-        String accessToken = loginAndGetAccessToken();
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+
 
         UpdateUserPassRequest updatePassRequest = UpdateUserPassRequest.builder()
                 .currentPassword("NewOne!!01")

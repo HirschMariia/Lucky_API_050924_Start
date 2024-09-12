@@ -9,11 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static tests.BaseTest.*;
 
-public class UpdatePostTest {
+public class UpdatePostTest extends BaseTest{
 // ЭТОТ ТЕСТ НЕ РАБОТАЕТ ПОЗЖЕ ПОЛАЖУ И ПОПРОБУЮ СДЕЛАТЬ ЛИСТ
     @Test
     public void updatePostSuccessfully() {
-        String accessToken = loginAndGetAccessToken(); // получение токена
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+
         UpdatePostRequest updateRequest = UpdatePostRequest.builder()
                 .title("Dulce et Decorum Est/Blabla/030303")
                 .description("Ut debitis iusto sint/Blabla/030303")

@@ -4,14 +4,13 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static tests.BaseTest.*;
 
-public class DeleteUserTest {
+public class DeleteUserTest extends BaseTest {
 
     @Test
     public void deleteUserWithoutPermission() {
-        String accessToken = loginAndGetAccessToken(); // получение токена
-        String userId = getUserId(accessToken); // получение userId
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+        String userId = getUserId(accessToken);//получение айдишки
 
         String deleteUrl = BASE_URI + "/api/users/" + userId;
         Response deleteResponse = deleteRequest(deleteUrl, 403, accessToken);

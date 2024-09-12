@@ -1,6 +1,4 @@
 package tests;
-
-import dto.LoginUserRequest;
 import dto.UpdateUserInfoRequest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -9,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static tests.BaseTest.*;
 import java.util.List;
 
-public class UpdateUserInfoTest {
+public class UpdateUserInfoTest extends BaseTest {
     @Test
     public void updateUserInfoSuccessfully() {
-        String accessToken = loginAndGetAccessToken();//получение токена
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
         String userId = getUserId(accessToken);//получение айдишки
 
 //loginAndGetAccessToken();//получение токена
@@ -43,9 +41,8 @@ public class UpdateUserInfoTest {
 
     @Test
     public void updateDateOfBirthday() {
-        String accessToken = loginAndGetAccessToken();
-        String userId = getUserId(accessToken);
-
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+        String userId = getUserId(accessToken);//получение айдишки
         UpdateUserInfoRequest updateRequest = UpdateUserInfoRequest.builder()
                 .birthDate("1892-01-01T00:00:00.000Z")
                 .build();
@@ -60,8 +57,8 @@ public class UpdateUserInfoTest {
     }
     @Test
     public void updateInfoWithInvalidPhoneFormat() {
-        String accessToken = loginAndGetAccessToken();
-        String userId = getUserId(accessToken);
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+        String userId = getUserId(accessToken);//получение айдишки
 
         UpdateUserInfoRequest updateRequest = UpdateUserInfoRequest.builder()
                 .phone("123blabla")
@@ -81,8 +78,8 @@ public class UpdateUserInfoTest {
     }
     @Test
     public void updateInfoWithExcessivelyLongName() {
-        String accessToken = loginAndGetAccessToken();
-        String userId = getUserId(accessToken);
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+        String userId = getUserId(accessToken);//получение айдишки
 
         UpdateUserInfoRequest updateRequest = UpdateUserInfoRequest.builder()
                 .name("Toma".repeat(50))
@@ -97,8 +94,8 @@ public class UpdateUserInfoTest {
     }
     @Test
     public void updateInfoWithInvalidGenderFormat() {
-        String accessToken = loginAndGetAccessToken();
-        String userId = getUserId(accessToken);
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+        String userId = getUserId(accessToken);//получение айдишки
 
         UpdateUserInfoRequest updateRequest = UpdateUserInfoRequest.builder()
                 .gender("Transgender")
@@ -113,8 +110,8 @@ public class UpdateUserInfoTest {
     }
     @Test
     public void emptyField() {
-        String accessToken = loginAndGetAccessToken();
-        String userId = getUserId(accessToken);
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
+        String userId = getUserId(accessToken);//получение айдишки
 
         UpdateUserInfoRequest updateRequest = UpdateUserInfoRequest.builder()
                 .name("")
