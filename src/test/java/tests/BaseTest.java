@@ -6,8 +6,6 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -105,13 +103,20 @@ public class BaseTest {
     }
 
 
-    public List<Map<String, Object>> getAllPosts(String accessToken) {
-        Response response = getRequest("/api/posts", 200, accessToken);
-        return response.jsonPath().getList("");
-    }
-    public Map<String, Object> getPostById(String postId, String accessToken) {
-        Response response = getRequest("/api/posts/" + postId, 200, accessToken);
-        return response.jsonPath().getMap(""); // Извлекаем пост как Map
+    public static Response postRequestForCreatePost(String endpoint, Integer expectedStatusCode, Object body, String accessToken) {
+        Response response = given()
+                .spec(specification)
+                .header("Authorization", "Bearer " + accessToken)
+                .header("Content-Type", "application/json")
+                .body(body)
+                .when()
+                .log().all()
+                .post(endpoint)
+                .then()
+                .log().all()
+                .statusCode(expectedStatusCode)
+                .extract().response();
+        return response;
     }
 
     // Метод для загрузки файлов через POST запрос с использованием multipart/form-data
@@ -120,6 +125,7 @@ public class BaseTest {
                 .spec(specification)
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType("multipart/form-data")
+                //.contentType(ContentType.MULTIPART)
                 .multiPart("multipartFile", file, "image/png")
                 .when()
                 .log().all()
@@ -129,4 +135,5 @@ public class BaseTest {
                 .statusCode(expectedStatusCode)
                 .extract().response();
     }
+
 }

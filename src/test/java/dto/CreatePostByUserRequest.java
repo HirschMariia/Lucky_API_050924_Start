@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatePostRequest {
-    private String id;
-    private String title;
-    private String description;
-    private String body;
-    private boolean draft;
+
+public class CreatePostByUserRequest {
+   String title;
+   String description;
+   String body;
+   String imageUrl;
+   private boolean draft;
 }
