@@ -30,4 +30,20 @@ public class CreatePostByUserTest extends BaseTest {
         assertFalse(postIds.isEmpty());
         assertTrue(postIds.contains(createResponse.body().jsonPath().getString("id")));
     }
+    @Test
+    public void createPostWithoutTitle() {
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");
+        CreatePostByUserRequest createRequest = CreatePostByUserRequest.builder()
+                .description("WOW232")
+                .body("LAAA232")
+                .imageUrl("string")
+                .draft(true)
+                .build();
+        String createPostUrl = "/api/posts";
+        Response createResponse = postRequestForCreatePost(createPostUrl, 400, createRequest, accessToken);
+        assertEquals(400, createResponse.statusCode());
+        String errorMessage = createResponse.body().jsonPath().getList("title", String.class).get(0);
+        assertEquals("Title can not be empty!", errorMessage);
+    }
+
 }

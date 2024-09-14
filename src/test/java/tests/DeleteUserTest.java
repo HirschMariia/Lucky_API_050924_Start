@@ -9,8 +9,8 @@ public class DeleteUserTest extends BaseTest {
 
     @Test
     public void deleteUserWithoutPermission() {
-        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
-        String userId = getUserId(accessToken);//получение айдишки
+        String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");
+        String userId = getUserId(accessToken);
 
         String deleteUrl = BASE_URI + "/api/users/" + userId;
         Response deleteResponse = deleteRequest(deleteUrl, 403, accessToken);
