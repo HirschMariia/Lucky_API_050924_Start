@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UploadImageTest extends BaseTest {
     @Test
     public void uploadImageSuccessfully() {
-        //При статус коде 201 проходит, но должен проходить при 200, баг завести!
+        //Bug, should be status code 200, with 201 passed
         String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");
         File imageFile = new File("C:\\Users\\User\\Pictures\\for project\\Screenshot_4.png");
         String uploadUrl = "/api/images";
         Response response = postImageUploadRequest(uploadUrl, imageFile, 201, accessToken);
-        assertEquals(201, response.statusCode());
+        assertEquals(200, response.statusCode());
     }
 }
 

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UpdateUserPasswordTest extends BaseTest{
-
     @Test
     public void updateUserPasswordSuccessfully() {
         String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
@@ -19,7 +18,6 @@ public class UpdateUserPasswordTest extends BaseTest{
         Response updatePasswordResponse = putRequest(updatePasswordUrl, updatePassRequest, 200, accessToken);
         assertEquals(200, updatePasswordResponse.statusCode());
     }
-
     @Test
     public void updateUserPasswordWithIncorrectCurrentPassword() {
         String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена
@@ -28,7 +26,6 @@ public class UpdateUserPasswordTest extends BaseTest{
                 .newPassword("Blabla20!!!")
                 .confirmPassword("Blabla20!!!")
                 .build();
-
         String updatePasswordUrl = BASE_URI + "/api/user/password/update";
         Response updatePasswordResponse = putRequest(updatePasswordUrl, updatePassRequest, 400, accessToken);
         String errorMessage = updatePasswordResponse.body().jsonPath().getString("message");
@@ -36,7 +33,6 @@ public class UpdateUserPasswordTest extends BaseTest{
         String httpStatus = updatePasswordResponse.body().jsonPath().getString("httpStatus");
         assertEquals("BAD_REQUEST", httpStatus);
     }
-
     @Test
     public void updateUserPasswordWithShortNewPassword() {
         String accessToken = loginAccessToken("hirsch.mariia@icloud.com", "NewOne!!01");//получение токена

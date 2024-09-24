@@ -26,7 +26,6 @@ public class UpdatePostTest extends BaseTest {
                 .build();
         Response updateResponse = putRequest("/api/posts/" + postId, updateRequest, 200, accessToken);
         assertEquals(200, updateResponse.statusCode());
-
     }
     @Test
     public void updatePostWithEmptyTitle() {

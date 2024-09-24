@@ -24,7 +24,6 @@ public class BaseTest {
             .build();  // завершаем метод билд
 
 
-    // метод, валиден для всех get запросов
     public static Response getRequest(String endpoint, Integer expectedStatusCode, String accessToken) {
         Response response = given()
                 .spec(specification)
@@ -40,7 +39,6 @@ public class BaseTest {
 
     }
 
-    //универсальный метод для всех POST
     public static Response postRequest(String endpoint, Integer expectedStatusCode, Object body) {
         Response response = given()
                 .spec(specification)
@@ -55,7 +53,6 @@ public class BaseTest {
         return response;
     }
 
-    //универсальный метод для всех PUT
     public static Response putRequest(String endpoint, Object body, Integer expectedStatusCode, String accessToken) {
         Response response = given()
                 .spec(specification)
@@ -86,7 +83,7 @@ public class BaseTest {
         return response;
     }
 
-    // Метод для получения accessToken после успешного входа
+    // Method for token after auth
     public String loginAccessToken(String email, String password){
         LoginUserRequest requestBody = new LoginUserRequest(email, password);
         Response response = postRequest("/api/auth/login", 200, requestBody);
@@ -95,6 +92,7 @@ public class BaseTest {
         assertFalse(loginResponseAccessToken.isEmpty());
         return loginResponseAccessToken;
     }
+    // Method for user id
     public String getUserId(String accessToken){
         Response meResponse = getRequest("/api/me", 200, accessToken);
         String userId = meResponse.body().jsonPath().getString("id");
@@ -119,12 +117,11 @@ public class BaseTest {
         return response;
     }
 
-    // Метод для загрузки файлов через POST запрос с использованием multipart/form-data
+    // Method POST for download image with multipart/form-data
     public static Response postImageUploadRequest(String endpoint, File file, Integer expectedStatusCode, String accessToken) {
         return given()
                 .spec(specification)
                 .header("Authorization", "Bearer " + accessToken)
-                //.contentType("multipart/form-data")
                 .contentType(ContentType.MULTIPART)
                 .multiPart("multipartFile", file, "image/png")
                 .when()

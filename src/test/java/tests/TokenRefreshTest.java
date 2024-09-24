@@ -13,5 +13,4 @@ public class TokenRefreshTest {
         assertEquals(401, expiredTokenResponse.statusCode());
         assertTrue(expiredTokenResponse.body().jsonPath().getString("message").contains("Unauthorized"));
     }
-
 }
